@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ballerina Shoes Button & Video</title>
+  <style>
+    body {
+      font-family: Italic;
+      margin: 0;
+      padding: 0;
+      background-color: #fdd9e4;
+      text-align: center;
+    }
+
+    header {
+      background: #fdd9e4;
+      color: #ffffff;
+      padding: 10px 0;
+    }
+
+    main {
+      padding-top: 50px;
+    }
+
+    .ballerina-button {
+      font-size: 50px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .ballerina-button:focus {
+      outline: none;
+    }
+
+    #fairy {
+      position: absolute;
+      top: 20%;
+      left: 45%;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      z-index: 2;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    #videoSection {
+      display: none;
+      background-color: pink;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    iframe {
+      width: 315px;
+      height: 560px;
+      border: none;
+      margin-top: 20px;
+    }
+
+    #questionBox {
+      display: none;
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .response-button {
+      margin: 5px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    #resultImage {
+      display: none;
+      margin-top: 20px;
+      width: 200px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Für gute Laune</h1>
+  </header>
+
+  <main id="mainSection">
+    <button id="ballerinaButton" class="ballerina-button">
+      <img src="https://www.pngall.com/wp-content/uploads/13/Pointe-Shoes-PNG-Images.png" alt="Ballerina Shoes" width="100" height="100" />
+    </button>
+    <div id="fairy" class="hidden">
+      <img src="https://clipart-library.com/images/pcodazyqi.gif" width="145" height="145" />
+    </div>
+  </main>
+
+  <section id="videoSection">
+    <iframe id="video" src="https://www.youtube.com/embed/Xa7_zGE3XbU?enablejsapi=1" title="ballerina cappuccina☕" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+    <div id="questionBox">
+      <p>Did you enjoy the video?</p>
+      <button class="response-button" onclick="submitResponse('Yes')">Yes</button>
+      <button class="response-button" onclick="submitResponse('No')">No</button>
+    </div>
+
+    <img id="resultImage" src="" alt="Response Image" />
+  </section>
+
+  <footer>
+    <p>&copy; Ballerina</p>
+  </footer>
+
+  <script>
+    // Show fairy and transition to video
+    document.getElementById('ballerinaButton').addEventListener('click', function () {
+      const fairy = document.getElementById('fairy');
+      fairy.classList.remove('hidden');
+      fairy.style.opacity = 1;
+
+      setTimeout(() => {
+        document.getElementById('mainSection').style.display = 'none';
+        document.getElementById('videoSection').style.display = 'flex';
+      }, 1000);
+    });
+
+    // Load YouTube API
+    var tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    var player;
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('video', {
+        events: {
+          'onStateChange': onPlayerStateChange
+        }
+      });
+    }
+
+    function onPlayerStateChange(event) {
+      if (event.data == YT.PlayerState.ENDED) {
+        document.getElementById('questionBox').style.display = 'block';
+      }
+    }
+
+    function submitResponse(answer) {
+      var resultImage = document.getElementById('resultImage');
+      if (answer === 'Yes') {
+        resultImage.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTE0tIGTagWTH0oRBFlpghmK0TsVqPJ8gjCYg&s';
+      } else {
+        resultImage.src = 'https://media.tenor.com/KyaSQYUcHSQAAAAe/emo-spongebob.png';
+      }
+      resultImage.style.display = 'block';
+      document.getElementById('questionBox').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
